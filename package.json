@@ -1,0 +1,9 @@
+{
+    "name": "Bienen",
+    "description": "Simple website to learn basic rules of programming with a bee simulator",
+    "author": "Kore Nordmann",
+    "dependencies" : {
+        "express": "3.x",
+        "socket.io": "*"
+    }
+}
