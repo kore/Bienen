@@ -1,0 +1,8 @@
+.slot {
+    border-radius: 3px;
+    border: 1px solid #babdb6;
+
+    margin: 2px;
+    padding: 2px;
+    min-height: 2em;
+}

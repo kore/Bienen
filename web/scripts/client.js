@@ -20,4 +20,14 @@ $(document).ready(function(){
         $('#register').addClass("hidden");
         $('#code').removeClass("hidden");
     });
+
+    // Programming bindings
+    $(".slot").droppable({
+        accept: ".card",
+        activeClass: "bg-success",
+        drop: function(event, element) {
+            $(element.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+        }
+    });
+    $(".card").draggable();
 });
