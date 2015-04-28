@@ -1,28 +1,23 @@
 $(document).ready(function(){
     var socket = io.connect();
 
-    socket.on('message', function (data) {
-        var date = new Date(data.date);
-        $('#chat').append(
-            $('<li></li>').append(
-                $('<span class="date">').text('[' + date.getHours() + ':' + date.getMinutes() + '] '),
-                $('<strong>').text((data.name || "Server") + ": "),
-                $('<span class="message">').text(data.text))
-        );
-        $('body').scrollTop($('body')[0].scrollHeight);
+    // Registration form bindings
+    $('form.register button.color').on("click", function(event) {
+        $('form.register button.color').removeClass("active");
+        $(this).addClass("active");
+        $('form.register input[name="color"]').val($(this).data('color'));
     });
-
-    function senden(e) {
-        e.preventDefault();
-
-        var name = $('#name').val();
-        var text = $('#text').val();
-
-        socket.emit('message', { name: name, text: text });
-        $('#text').val('');
+    $('form.register').on("submit", function(event) {
+        event.preventDefault();
+        socket.emit('register', {
+            "name": $('form.register input[name="name"]').val(),
+            "color": $('form.register input[name="color"]').val()
+        });
 
         return false;
-    }
-
-    $('#message').bind("submit", senden);
+    });
+    socket.on('registered', function() {
+        $('#register').addClass("hidden");
+        $('#code').removeClass("hidden");
+    });
 });
