@@ -5,18 +5,22 @@ function Bienen(server) {
     this.users = {};
 };
 
-Bienen.prototype.registerPlayer = function(userSocket, playerData) {
-    this.users[userSocket.id] = new User(
-        userSocket,
+Bienen.prototype.registerPlayer = function(socket, playerData) {
+    this.users[socket.id] = new User(
+        socket,
         playerData.name || "Anonymous",
         playerData.color || "#edd400"
     );
-    userSocket.emit("registered", {});
+    socket.emit("registered", {});
 
     console.log(this.users);
 };
 
-Bienen.prototype.configure = function(program) {
+Bienen.prototype.configure = function(socket, program) {
+}
+
+Bienen.prototype.removePlayer = function(socket) {
+    delete this.users[socket.id]; 
 }
 
 Bienen.prototype.move = function() {

@@ -3,10 +3,15 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
     Bienen = require('./server/bienen.js'),
-    config = require('./server/config.json');
+    config = require('./server/config.json'),
+    bienen = new Bienen(server),
+    bindSocket = function(fn, socket) {
+        return function() {
+            fn.apply(bienen, [socket, arguments[0]]);
+        }
+    };
 
 server.listen(config.server.port);
-bienen = new Bienen(server);
 
 app.configure(function(){
     app.use(express.static(__dirname + '/web'));
@@ -17,10 +22,9 @@ app.get('/', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
-    socket.on('register', function (data) {
-        bienen.registerPlayer(socket, data);
-    });
-    socket.on('configure', bienen.configure);
+    socket.on('register', bindSocket(bienen.registerPlayer, socket));
+    socket.on('configure', bindSocket(bienen.configure, socket));
+    socket.on('disconnect', bindSocket(bienen.removePlayer, socket));
 });
 
 setInterval(bienen.move, 1000);
