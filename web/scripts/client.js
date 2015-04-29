@@ -26,8 +26,12 @@ $(document).ready(function(){
         accept: ".card",
         activeClass: "bg-success",
         drop: function(event, element) {
-            $(element.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+            $(this).empty();
+            $(this).append($(element.draggable).clone().detach().css({top: 0, left: 0}));
+            $(element.draggable).css({top: 0,left: 0});
         }
     });
-    $(".card").draggable();
+    $(".card").draggable({
+        helper: "clone"
+    });
 });
