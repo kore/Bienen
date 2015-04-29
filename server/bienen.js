@@ -13,13 +13,14 @@ Bienen.prototype.registerPlayer = function(socket, playerData) {
     );
     socket.emit("registered", {});
 
-    console.log(this.users);
+    console.log(playerData.name + " has registered.");
 };
 
 Bienen.prototype.configure = function(socket, program) {
 }
 
 Bienen.prototype.removePlayer = function(socket) {
+    console.log(this.users[socket.id].name + " has disconnected.");
     delete this.users[socket.id]; 
 }
 
