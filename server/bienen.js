@@ -17,11 +17,15 @@ Bienen.prototype.registerPlayer = function(socket, playerData) {
 };
 
 Bienen.prototype.configure = function(socket, program) {
+    console.log(this.users[socket.id].name + " got reprogrammed.");
+    this.users[socket.id].program = program;
 }
 
 Bienen.prototype.removePlayer = function(socket) {
-    console.log(this.users[socket.id].name + " has disconnected.");
-    delete this.users[socket.id]; 
+    if (this.users[socket.id]) {
+        console.log(this.users[socket.id].name + " has disconnected.");
+        delete this.users[socket.id];
+    }
 }
 
 Bienen.prototype.move = function() {

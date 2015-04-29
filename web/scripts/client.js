@@ -26,9 +26,21 @@ $(document).ready(function(){
         accept: ".card",
         activeClass: "bg-success",
         drop: function(event, element) {
+            var program = {};
+
+            // Handle UI
             $(this).empty();
             $(this).append($(element.draggable).clone().detach().css({top: 0, left: 0}));
             $(element.draggable).css({top: 0,left: 0});
+
+            // Read program from HTML
+            $("table.program .slot").each(function() {
+                var type = $(this).data('type'),
+                    action = $(this).find(".card").data("type") || null;
+
+                program[type] = action;
+            });
+            socket.emit("configure", program);
         }
     });
     $(".card").draggable({
