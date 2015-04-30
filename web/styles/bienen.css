@@ -7,8 +7,10 @@
     min-height: 2em;
 }
 
-.canvas {
+#canvas {
     border: 1px solid #babdb6;
-    min-width: 400px;
-    min-height: 400px;
+    min-width: 600px;
+    min-height: 600px;
+
+    background-image: url("/images/grass_mod.jpg");
 }

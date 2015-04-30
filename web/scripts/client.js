@@ -2,7 +2,7 @@ $(document).ready(function(){
     var socket = io.connect(),
         canvas = Raphael("canvas"),
         beeHandler = new Bee(canvas),
-        demoBee = beeHandler.create('#FFFF30').transform("R0,24,24T" + (canvas.width / 2) + "," + (canvas.height / 2));
+        demoBee = beeHandler.create('#FFFF30').transform("R0,24,24T" + (canvas.width / 2 - 24) + "," + (canvas.height / 2 - 24));
 
     // Registration form bindings
     $('form.register button.color').on("click", function(event) {
