@@ -1,5 +1,19 @@
 $(document).ready(function(){
-    var socket = io.connect();
+    var socket = io.connect(),
+        canvas = Raphael("canvas", 400, 400);
+        beeSvg = null;
+
+    jQuery(document).ready(function(){
+        jQuery.ajax({
+            type: "GET",
+            url: "/images/bee.svg",
+            dataType: "xml",
+            success: function(svgXML) {
+                beeSvg = canvas.importSVG(svgXML);
+                console.log(beeSvg);
+            }
+        });
+    });
 
     // Registration form bindings
     $('form.register button.color').on("click", function(event) {
