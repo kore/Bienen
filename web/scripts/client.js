@@ -1,19 +1,10 @@
 $(document).ready(function(){
     var socket = io.connect(),
-        canvas = Raphael("canvas", 400, 400);
-        beeSvg = null;
+        canvas = Raphael("canvas"),
+        bee = new Bee(canvas);
 
-    jQuery(document).ready(function(){
-        jQuery.ajax({
-            type: "GET",
-            url: "/images/bee.svg",
-            dataType: "xml",
-            success: function(svgXML) {
-                beeSvg = canvas.importSVG(svgXML);
-                console.log(beeSvg);
-            }
-        });
-    });
+    demoBee = bee.create('#FB8D2D');
+    demoBee.transform("R0,24,24T" + (canvas.width / 2 - 24) + "," + (canvas.height / 2 - 24) + "s3,3,0,0");
 
     // Registration form bindings
     $('form.register button.color').on("click", function(event) {
