@@ -6,3 +6,9 @@
     padding: 2px;
     min-height: 2em;
 }
+
+.canvas {
+    border: 1px solid #babdb6;
+    min-width: 400px;
+    min-height: 400px;
+}
