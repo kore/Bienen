@@ -1,16 +1,19 @@
 $(document).ready(function(){
     var socket = io.connect(),
         canvas = Raphael("canvas"),
-        bee = new Bee(canvas);
-
-    demoBee = bee.create('#FB8D2D');
-    demoBee.transform("R0,24,24T" + (canvas.width / 2 - 24) + "," + (canvas.height / 2 - 24) + "s3,3,0,0");
+        beeHandler = new Bee(canvas),
+        demoBee = beeHandler.create('#FFFF30').transform("R0,24,24T" + (canvas.width / 2) + "," + (canvas.height / 2));
 
     // Registration form bindings
     $('form.register button.color').on("click", function(event) {
         $('form.register button.color').removeClass("active");
         $(this).addClass("active");
-        $('form.register input[name="color"]').val($(this).data('color'));
+
+        color = $(this).data('color');
+        $('form.register input[name="color"]').val(color);
+
+        demoBee.items[5].attr("fill", color);
+        demoBee.items[7].attr("fill", color);
     });
     $('form.register').on("submit", function(event) {
         event.preventDefault();
@@ -22,6 +25,7 @@ $(document).ready(function(){
         return false;
     });
     socket.on('registered', function() {
+        canvas.remove(demoBee);
         $('#register').addClass("hidden");
         $('#code').removeClass("hidden");
     });
