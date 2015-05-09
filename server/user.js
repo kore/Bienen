@@ -1,8 +1,9 @@
-function User(socket, name, color) {
+function User(socket, name, bee) {
     this.socket = socket;
-    this.name = name;
-    this.color = color;
     this.registered = new Date();
+    this.name = name;
+    this.bee = bee;
+    this.programmed = null;
     this.program = {};
 }
 

@@ -18,9 +18,11 @@ Bee.prototype.create = function(color) {
             {"type": "path", "path": "m23.78 36.836c-1.6144 0-3.2 0.1251-4.7476 0.36548a7.4688 10.281 0 0 0 3.8196 2.4127c0.30826-0.01001 0.61727-0.0169 0.92799-0.0169 0.40054 0 0.79854 0.01037 1.195 0.02696a7.4688 10.281 0 0 0 3.8205 -2.38c-1.6324-0.26836-3.3078-0.40826-5.0155-0.40826z", "stroke": "none", "fill": "#000"},
             {"type": "path", "path": "m32.346 29.789c1.6736-0.13747 3.4856 0.04009 5.306 0.57874 3.6029 1.0661 6.4084 3.3008 7.7654 5.8562", "stroke": "#000", "stroke-linecap": "round", "stroke-width": .7, "fill": "none"},
             {"type": "path", "path": "m15.593 29.789c-1.6736-0.13747-3.4856 0.04009-5.306 0.57874-3.6029 1.0661-6.4084 3.3008-7.7654 5.8562", "stroke": "#000", "stroke-linecap": "round", "stroke-width": .7, "fill": "none"}
-        ],
-        bee = this.canvas.add(beeData);
+        ];
+    return this.canvas.add(beeData);
+}
 
-    this.canvas.add(bee);
-    return bee;
+Bee.prototype.getTransformationString = function(direction, position) {
+    return "R" + direction + ",24,24" +
+        "T" + (position[0] - 24) + "," + (position[1] - 24);
 }
