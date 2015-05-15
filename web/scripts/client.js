@@ -2,7 +2,7 @@ $(document).ready(function(){
     var canvas = Raphael("canvas"),
         beeHandler = new Bee(canvas),
         demoBee = beeHandler.create('#FFFF30').transform(beeHandler.getTransformationString(0, [canvas.width / 2, canvas.height / 2])),
-        field = new Field();
+        field = new Field(canvas);
 
     // Registration form bindings
     $('form.register button.color').on("click", function(event) {
