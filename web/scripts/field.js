@@ -1,8 +1,11 @@
-var Field = function(canvas) {
+var Field = function(canvas, beeHandler) {
+    this.canvas = canvas;
+    this.beeHandler = beeHandler;
+
     this.name = null;
     this.color = null;
     this.program = null;
-    this.canvas = canvas;
+    this.bee = null;
 };
 
 Field.prototype.register = function(name, color) {
@@ -41,7 +44,6 @@ Field.prototype.loadLevel = function(level) {
         };
         height = i;
     });
-    console.log(map);
     
     var offset = [
             Math.floor((this.canvas.width - (width * 50)) / 2),
@@ -83,4 +85,10 @@ Field.prototype.loadLevel = function(level) {
             };
         }
     }
+
+    this.bee = this.beeHandler.create(this.color)
+        .transform(this.beeHandler.getTransformationString(
+            level.direction,
+            [offset[0] + level.start[0] * 50 + 25, offset[1] + level.start[1] * 50 + 25]
+        ));
 };
