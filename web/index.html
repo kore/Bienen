@@ -58,45 +58,21 @@
                     <div id="code" class="hidden">
                         <h1>Dein Programm</h1>
                         <div class="col-md-6">
-                            <table class="table table-striped program">
-                                <thead>
-                                    <tr>
-                                        <th>Status</th>
-                                        <th>Aktion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Frei</td>
-                                        <td><div class="slot" data-type="free"></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Wand</td>
-                                        <td><div class="slot" data-type="wall"></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ecke</td>
-                                        <td><div class="slot" data-type="edge"></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Biene</td>
-                                        <td><div class="slot" data-type="contact"></div></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <ul class="program list-unstyled">
+                            </ul>
                         </div>
                         <div class="col-md-6">
-                            <div class="slot">
-                                <a class="card btn btn-default" data-type="fly">
+                            <ul class="program list-unstyled">
+                                <li class="card" data-type="fly">
                                     <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                                </a>
-                                <a class="card btn btn-default" data-type="clockwise">
+                                </li>
+                                <li class="card" data-type="clockwise">
                                     <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-                                </a>
-                                <a class="card btn btn-default" data-type="stop">
+                                </li>
+                                <li class="card" data-type="stop">
                                     <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
-                                </a>
-                            </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -106,9 +82,9 @@
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script src="/vendor/jquery-ui/jquery-ui.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-        <script src="/vendor/socket.io/socket.io-1.3.5.js"></script>
         <script src="/vendor/raphaeljs/raphael-min.js"></script>
         <script src="/scripts/bee.js"></script>
+        <script src="/scripts/field.js"></script>
         <script src="/scripts/client.js"></script>
     </body>
 </html>

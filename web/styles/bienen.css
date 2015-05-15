@@ -1,10 +1,17 @@
-.slot {
+.program {
     border-radius: 3px;
     border: 1px solid #babdb6;
 
     margin: 2px;
     padding: 2px;
     min-height: 2em;
+}
+
+.card {
+    border: 1px solid #babdb6;
+    border-radius: 3px;
+    margin: 2px;
+    padding: 2px;
 }
 
 #canvas {
