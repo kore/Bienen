@@ -35,13 +35,13 @@ Field.prototype.start = function() {
 
         switch (opcode) {
             case "clockwise":
-                this.bee.direction = (this.bee.direction + 90) % 360;
+                this.bee.direction = this.bee.direction + 90;
                 break;
 
             case "fly":
                 var newPosition = [
-                        this.bee.position[0] + movements[this.bee.direction][0],
-                        this.bee.position[1] + movements[this.bee.direction][1],
+                        this.bee.position[0] + movements[this.bee.direction % 360][0],
+                        this.bee.position[1] + movements[this.bee.direction % 360][1],
                     ];
 
                 // @TODO: Verify new position is valid:
