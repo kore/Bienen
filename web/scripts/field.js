@@ -27,7 +27,8 @@ Field.prototype.start = function() {
             180: [0, 1],
             270: [-1, 0]
         },
-        delay = 200;
+        delay = 300,
+        transforms = [];
 
     for (i in this.program) {
         var opcode = this.program[i];
@@ -53,16 +54,23 @@ Field.prototype.start = function() {
                 break;
         };
 
-        var animation = Raphael.animation(
-            {transform: this.beeHandler.getTransformationString(
+        transforms.push(
+            this.beeHandler.getTransformationString(
                 this.bee.direction,
                 [this.offset[0] + this.bee.position[0] * 50 + 25,
                  this.offset[1] + this.bee.position[1] * 50 + 25]
-            )},
-            delay
+            )
         );
-        this.bee.element.animate(animation.delay(delay * i));
     }
+
+    var animate = function() {
+        var transform = transforms.shift();
+        if (transform) {
+            this.bee.element.animate({transform: transform}, delay);
+            window.setTimeout(animate.bind(this), delay);
+        }
+    };
+    animate.bind(this)();
 };
 
 Field.prototype.loadLevel = function(level) {

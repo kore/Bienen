@@ -30,7 +30,7 @@ $(document).ready(function(){
     });
 
     // Programming bindings
-    $(".program").sortable({
+    $("#program").sortable({
         revert: true,
         accept: ".card",
         items: ".card",
