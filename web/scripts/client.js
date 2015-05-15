@@ -33,7 +33,11 @@ $(document).ready(function(){
     $(".program").sortable({
         revert: true,
         accept: ".card",
-        items: ".card"
+        items: ".card",
+        update: function(event, ui) {
+            var item = ui.item;
+            $(item).removeAttr("style");
+        }
     });
     $(".card").draggable({
         connectToSortable: ".program",
