@@ -49,4 +49,7 @@ $(document).ready(function(){
         connectToSortable: ".program",
         helper: "clone"
     });
+    $('#start').on("click", function(event) {
+        field.start();
+    });
 });

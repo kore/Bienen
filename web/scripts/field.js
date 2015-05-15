@@ -2,6 +2,8 @@ var Field = function(canvas, beeHandler) {
     this.canvas = canvas;
     this.beeHandler = beeHandler;
 
+    this.offset = [0, 0];
+
     this.name = null;
     this.color = null;
     this.program = null;
@@ -19,7 +21,48 @@ Field.prototype.configure = function(program) {
 };
 
 Field.prototype.start = function() {
-    console.log("Start");
+    var movements = {
+            0: [0, -1],
+            90: [1, 0],
+            180: [0, 1],
+            270: [-1, 0]
+        },
+        delay = 200;
+
+    for (i in this.program) {
+        var opcode = this.program[i];
+
+        switch (opcode) {
+            case "clockwise":
+                this.bee.direction = (this.bee.direction + 90) % 360;
+                break;
+
+            case "fly":
+                var newPosition = [
+                        this.bee.position[0] + movements[this.bee.direction][0],
+                        this.bee.position[1] + movements[this.bee.direction][1],
+                    ];
+
+                // @TODO: Verify new position is valid:
+                //
+                //  * Boundings
+                //  * Field obstacles
+                //  * Reached target
+
+                this.bee.position = newPosition;
+                break;
+        };
+
+        var animation = Raphael.animation(
+            {transform: this.beeHandler.getTransformationString(
+                this.bee.direction,
+                [this.offset[0] + this.bee.position[0] * 50 + 25,
+                 this.offset[1] + this.bee.position[1] * 50 + 25]
+            )},
+            delay
+        );
+        this.bee.element.animate(animation.delay(delay * i));
+    }
 };
 
 Field.prototype.loadLevel = function(level) {
@@ -45,22 +88,22 @@ Field.prototype.loadLevel = function(level) {
         height = i;
     });
     
-    var offset = [
+    this.offset = [
             Math.floor((this.canvas.width - (width * 50)) / 2),
             Math.floor((this.canvas.height - (height * 50)) / 2)
         ];
 
     this.canvas.clear();
     for (var i = 0; i <= width; ++i) {
-        var position = offset[0] + (50 * i);
-        this.canvas.path("M" + position + " " + offset[1] + "L" + position + " " + (offset[1] + 50 * height))
+        var position = this.offset[0] + (50 * i);
+        this.canvas.path("M" + position + " " + this.offset[1] + "L" + position + " " + (this.offset[1] + 50 * height))
             .attr("stroke", "#000")
             .attr("stroke-width", "2px");
     }
 
     for (var i = 0; i <= height; ++i) {
-        var position = offset[1] + (50 * i);
-        this.canvas.path("M" + offset[0] + " " + position + "L" + (offset[0] + 50 * width) + " " + position)
+        var position = this.offset[1] + (50 * i);
+        this.canvas.path("M" + this.offset[0] + " " + position + "L" + (this.offset[0] + 50 * width) + " " + position)
             .attr("stroke", "#000")
             .attr("stroke-width", "2px");
     }
@@ -68,8 +111,8 @@ Field.prototype.loadLevel = function(level) {
     for (var i = 0; i < width; ++i) {
         for (var j = 0; j < height; ++j) {
             var center = [
-                    offset[0] + (i * 50) + 25,
-                    offset[1] + (j * 50) + 25
+                    this.offset[0] + (i * 50) + 25,
+                    this.offset[1] + (j * 50) + 25
                 ];
 
             switch (map[j][i]) {
@@ -86,9 +129,13 @@ Field.prototype.loadLevel = function(level) {
         }
     }
 
-    this.bee = this.beeHandler.create(this.color)
-        .transform(this.beeHandler.getTransformationString(
-            level.direction,
-            [offset[0] + level.start[0] * 50 + 25, offset[1] + level.start[1] * 50 + 25]
-        ));
+    this.bee = {
+        element: this.beeHandler.create(this.color)
+            .transform(this.beeHandler.getTransformationString(
+                level.direction,
+                [this.offset[0] + level.start[0] * 50 + 25, this.offset[1] + level.start[1] * 50 + 25]
+            )),
+        position: level.start,
+        direction: level.direction
+    };
 };
