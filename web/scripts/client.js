@@ -35,8 +35,14 @@ $(document).ready(function(){
         accept: ".card",
         items: ".card",
         update: function(event, ui) {
-            var item = ui.item;
+            var item = ui.item,
+                program = [];
             $(item).removeAttr("style");
+
+            $.each($("#program .card"), function (position, card) {
+                program.push($(card).data("type"));
+            });
+            field.configure(program);
         }
     });
     $(".card").draggable({
