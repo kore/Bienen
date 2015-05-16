@@ -32,8 +32,8 @@ $(document).ready(function(){
     // Programming bindings
     $("#program").sortable({
         revert: true,
-        accept: ".card",
-        items: ".card",
+        accept: ".card.action",
+        items: ".card.action",
         update: function(event, ui) {
             var item = ui.item,
                 program = [];
@@ -45,7 +45,7 @@ $(document).ready(function(){
             field.configure(program);
         }
     });
-    $(".card").draggable({
+    $(".card.action").draggable({
         connectToSortable: ".program",
         helper: "clone"
     });
