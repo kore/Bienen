@@ -52,4 +52,8 @@ $(document).ready(function(){
     $('#start').on("click", function(event) {
         field.start();
     });
+    $('#reset').on("click", function(event) {
+        $("#program").empty();
+        field.configure([]);
+    });
 });
