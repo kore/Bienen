@@ -6,7 +6,7 @@ var level = [
         field:
             "   x    \n" +
             " x    x \n" +
-            "      t \n" +
+            "     t  \n" +
             "    x   \n" +
             "x     x \n"
     },
