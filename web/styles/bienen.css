@@ -13,6 +13,7 @@
     padding: 1px;
 
     min-width: 140px;
+    cursor: move;
 }
 
 .card .symbol {
