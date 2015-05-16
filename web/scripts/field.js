@@ -7,13 +7,14 @@ var Field = function(canvas, beeHandler) {
     this.name = null;
     this.color = null;
     this.program = null;
+    this.level = null;
     this.bee = null;
 };
 
 Field.prototype.register = function(name, color) {
     this.name = name;
     this.color = color;
-    this.loadLevel(level[0]);
+    this.loadLevel(level[1]);
 };
 
 Field.prototype.configure = function(program) {
@@ -28,7 +29,17 @@ Field.prototype.start = function() {
             270: [-1, 0]
         },
         delay = 300,
-        transforms = [];
+        transforms = [],
+        crashed = false;
+
+    this.bee.position = this.level.start;
+    this.bee.direction = this.level.direction;
+    this.bee.element.transform(
+        this.beeHandler.getTransformationString(
+            this.level.direction,
+            [this.offset[0] + this.level.start[0] * 50 + 25, this.offset[1] + this.level.start[1] * 50 + 25]
+        )
+    );
 
     for (i in this.program) {
         var opcode = this.program[i];
@@ -48,10 +59,11 @@ Field.prototype.start = function() {
                         this.bee.position[1] + movements[this.bee.direction % 360][1],
                     ];
 
-                // @TODO: Verify new position is valid:
-                //
-                //  * Boundings
-                //  * Field obstacles
+                if ((this.level.map[newPosition[1]][newPosition[0]] === undefined) ||
+                    (this.level.map[newPosition[1]][newPosition[0]] === "x")) {
+                    creashed = true;
+                    break;
+                }
 
                 this.bee.position = newPosition;
                 break;
@@ -59,6 +71,10 @@ Field.prototype.start = function() {
             case "stop":
                 // @TODO: Check if target has been reached
         };
+
+        if (crashed) {
+            break;
+        }
 
         transforms.push(
             this.beeHandler.getTransformationString(
@@ -146,6 +162,14 @@ Field.prototype.loadLevel = function(level) {
             };
         }
     }
+
+    this.level = {
+        start: level.start,
+        direction: level.direction,
+        map: map,
+        width: width,
+        height: height
+    };
 
     this.bee = {
         element: this.beeHandler.create(this.color)
