@@ -34,7 +34,11 @@ Field.prototype.start = function() {
         var opcode = this.program[i];
 
         switch (opcode) {
-            case "clockwise":
+            case "left":
+                this.bee.direction = this.bee.direction - 90;
+                break;
+
+            case "right":
                 this.bee.direction = this.bee.direction + 90;
                 break;
 
