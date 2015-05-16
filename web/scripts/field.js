@@ -133,8 +133,10 @@ Field.prototype.loadLevel = function(level) {
 
             switch (map[j][i]) {
                 case "x":
-                    this.canvas.rect(center[0] - 20, center[1] - 20, 40, 40, 5)
-                        .attr("fill", "#000000");
+                    this.canvas.rect(center[0] - 22, center[1] - 22, 44, 44)
+                        .attr("stroke", "none")
+                        .attr("fill", "#000000")
+                        .attr("fill-opacity", .5);
                     break;
 
                 case "t":
