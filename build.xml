@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Bienen" basedir="./" default="test">
+
+    <!--
+        Include local project properties.
+    -->
+    <property file="${basedir}/environment.local" />
+    <property file="${basedir}/environment" />
+
+    <target name="serve">
+        <echo>Server started at http://${server.host}/</echo>
+
+        <exec executable="php">
+            <arg value="-S" />
+            <arg value="${server.host}" />
+            <arg value="-t" />
+            <arg value="web/" />
+        </exec>
+    </target>
+</project>
