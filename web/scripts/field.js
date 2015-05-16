@@ -52,10 +52,12 @@ Field.prototype.start = function() {
                 //
                 //  * Boundings
                 //  * Field obstacles
-                //  * Reached target
 
                 this.bee.position = newPosition;
                 break;
+
+            case "stop":
+                // @TODO: Check if target has been reached
         };
 
         transforms.push(
@@ -66,6 +68,8 @@ Field.prototype.start = function() {
             )
         );
     }
+
+    // @TODO: Check if target has been reached and reset otherwise
 
     var animate = function() {
         var transform = transforms.shift();
