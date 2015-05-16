@@ -9,9 +9,31 @@
 
 .card {
     border: 1px solid #babdb6;
-    border-radius: 3px;
     margin: 2px;
-    padding: 2px;
+    padding: 1px;
+
+    min-width: 140px;
+}
+
+.card .symbol {
+    display: inline-block;
+}
+
+.card .symbol img {
+    margin: 2px;
+    display: inline-block;
+}
+
+.action .symbol {
+    background-color: #eeeeec;
+}
+
+.condition .symbol {
+    background-color: #729fcf;
+}
+
+.control .symbol {
+    background-color: #e9b96e;
 }
 
 #canvas {

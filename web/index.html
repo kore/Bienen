@@ -60,18 +60,68 @@
                         <div class="col-md-6">
                             <ul id="program" class="program list-unstyled">
                             </ul>
-                            <button id="start" type="button" class="btn btn-default" >Start</button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button id="start" type="button" class="btn btn-default" >Neu</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button id="start" type="button" class="btn btn-primary" >Start</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
+                            <h3>Aktionen</h3>
                             <ul class="program list-unstyled">
-                                <li class="card" data-type="fly">
-                                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                                <li class="card action" data-type="fly">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/fly.png" width="20" height="20" />
+                                    </span> Vorwärts
                                 </li>
-                                <li class="card" data-type="clockwise">
-                                    <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                                <li class="card action" data-type="left">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/left.png" width="20" height="20" />
+                                    </span> Links drehen
                                 </li>
-                                <li class="card" data-type="stop">
-                                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                                <li class="card action" data-type="right">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/right.png" width="20" height="20" />
+                                    </span> Rechts drehen
+                                </li>
+                                <li class="card action" data-type="stop">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/stop.png" width="20" height="20" />
+                                    </span> Anhalten
+                                </li>
+                            </ul>
+                            <h3>Bedingungen</h3>
+                            <ul class="program list-unstyled">
+                                <li class="card condition" data-type="free">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/fly.png" width="20" height="20" />
+                                    </span> Weg ist frei
+                                </li>
+                                <li class="card condition" data-type="blocked">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/blocked.png" width="20" height="20" />
+                                    </span> Wand voraus
+                                </li>
+                            </ul>
+                            <h3>Kontrollstrukturen</h3>
+                            <ul class="program list-unstyled">
+                                <li class="card control" data-type="condition">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/condition.png" width="20" height="20" />
+                                    </span> Wenn …
+                                </li>
+                                <li class="card control" data-type="repeat">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/repeat.png" width="20" height="20" />
+                                    </span> Wiederholen …
+                                </li>
+                                <li class="card control" data-type="while">
+                                    <span class="symbol" aria-hidden="true">
+                                        <img src="/images/icons/while.png" width="20" height="20" />
+                                    </span> Solange bis …
                                 </li>
                             </ul>
                         </div>
