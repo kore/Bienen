@@ -29,7 +29,8 @@
             <arg value="-e" />
             <targetfile />
             <arg value="--export-dpi=90" />
-            <arg value="--export-background=#ffffff00" />
+            <arg value="--export-background=#ffffff" />
+            <arg value="--export-background-opacity=0.0" />
 
             <fileset dir="${basedir}/docs/icons">
                 <include name="**/*.svg" />
