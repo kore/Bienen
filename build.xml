@@ -7,6 +7,8 @@
     <property file="${basedir}/environment.local" />
     <property file="${basedir}/environment" />
 
+    <property name="icondir" location="${basedir}/web/images/icons" />
+
     <target name="serve">
         <echo>Server started at http://${server.host}/</echo>
 
@@ -16,5 +18,23 @@
             <arg value="-t" />
             <arg value="web/" />
         </exec>
+    </target>
+
+    <target name="icons:compile">
+        <mkdir dir="${icondir}" />
+
+        <apply executable="inkscape">
+            <arg value="-f" />
+            <srcfile />
+            <arg value="-e" />
+            <targetfile />
+            <arg value="--export-dpi=90" />
+            <arg value="--export-background=#ffffff00" />
+
+            <fileset dir="${basedir}/docs/icons">
+                <include name="**/*.svg" />
+            </fileset>
+            <mapper id="out" type="glob" from="*.svg" to="${icondir}/*.png" />
+        </apply>
     </target>
 </project>
