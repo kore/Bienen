@@ -1,8 +1,15 @@
 var Bee = function(canvas) {
     this.canvas = canvas;
+    this.element = null;
+
+    this.offset = null;
+    this.startPosition = null;
+    this.startDirection = null;
+    this.position = null;
+    this.direction = null;
 };
 
-Bee.prototype.create = function(color) {
+Bee.prototype.create = function(offset, color) {
     var beeData = [
             {"type": "path", "path": "m22.938 15.675c-1.629-5.9535-6.456-9.8209-10.781-8.6376", "stroke": "#000", "stroke-linecap": "round", "stroke-width": .7, "fill": "none"},
             {"type": "path", "path": "m24.768 15.675c1.629-5.9535 6.456-9.8209 10.781-8.6376", "stroke": "#000", "stroke-linecap": "round", "stroke-width": .7, "fill": "none"},
@@ -19,10 +26,70 @@ Bee.prototype.create = function(color) {
             {"type": "path", "path": "m32.346 29.789c1.6736-0.13747 3.4856 0.04009 5.306 0.57874 3.6029 1.0661 6.4084 3.3008 7.7654 5.8562", "stroke": "#000", "stroke-linecap": "round", "stroke-width": .7, "fill": "none"},
             {"type": "path", "path": "m15.593 29.789c-1.6736-0.13747-3.4856 0.04009-5.306 0.57874-3.6029 1.0661-6.4084 3.3008-7.7654 5.8562", "stroke": "#000", "stroke-linecap": "round", "stroke-width": .7, "fill": "none"}
         ];
-    return this.canvas.add(beeData);
+
+    this.offset = offset;
+    this.element = this.canvas.add(beeData);
+
+    this.element.transform("R0,24,24T" + (this.canvas.width / 2) + "," + (this.canvas.height / 2));
+    return this;
 }
 
-Bee.prototype.getTransformationString = function(direction, position) {
-    return "R" + direction + ",24,24" +
-        "T" + (position[0] - 24) + "," + (position[1] - 24);
+Bee.prototype.setColor = function(color) {
+    this.element.items[5].attr("fill", color);
+    this.element.items[7].attr("fill", color);
 }
+
+Bee.prototype.getTransformationString = function(position, direction, wiggle = false) {
+    var wiggleFactor = wiggle ? Math.ceil(Math.random() * 40 - 20) : 0;
+
+    return "R" + (direction + wiggleFactor)  + ",24,24" +
+        "T" + 
+        (this.offset[0] + (position[0] * 50 + 25) - 24) + "," + 
+        (this.offset[1] + (position[1] * 50 + 25) - 24);
+};
+
+Bee.prototype.move = function(position, direction, finishedCallback) {
+    this.position = position;
+    this.direction = direction;
+
+    this.element.animate(
+        {transform: this.getTransformationString(position, direction, true)},
+        300,
+        'linear',
+        finishedCallback
+    );
+};
+
+Bee.prototype.moveToStart = function(position, direction) {
+    this.startPosition = this.position = position;
+    this.startDirection = this.direction = direction;
+
+    this.element.transform(this.getTransformationString(position, direction));
+}
+
+Bee.prototype.crashAnimation = function(finishedCallback) {
+    this.element.animate(
+        {transform: this.getTransformationString(this.position, this.direction - 20)},
+        200,
+        "linear",
+        (function() {
+        this.element.animate(
+            {transform: this.getTransformationString(this.position, this.direction + 20)},
+            200,
+            "linear",
+            (function() {
+            this.element.animate(
+                {transform: this.getTransformationString(this.position, this.direction - 20)},
+                200,
+                "linear",
+                (function() {
+                this.element.animate(
+                    {transform: this.getTransformationString(this.position, this.direction + 20)},
+                    200,
+                    "linear",
+                    finishedCallback.bind(this));
+                }).bind(this));
+            }).bind(this));
+        }).bind(this)
+    );
+};

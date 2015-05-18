@@ -1,7 +1,7 @@
 $(document).ready(function(){
     var canvas = Raphael("canvas"),
         beeHandler = new Bee(canvas),
-        demoBee = beeHandler.create('#FFFF30').transform(beeHandler.getTransformationString(0, [canvas.width / 2, canvas.height / 2])),
+        demoBee = beeHandler.create([0, 0], '#FFFF30'),
         field = new Field(canvas, beeHandler);
 
     // Registration form bindings
@@ -11,9 +11,7 @@ $(document).ready(function(){
 
         color = $(this).data('color');
         $('form.register input[name="color"]').val(color);
-
-        demoBee.items[5].attr("fill", color);
-        demoBee.items[7].attr("fill", color);
+        demoBee.setColor(color);
     });
     $('form.register').on("submit", function(event) {
         event.preventDefault();
@@ -22,7 +20,6 @@ $(document).ready(function(){
             $('form.register input[name="name"]').val(),
             $('form.register input[name="color"]').val()
         );
-        demoBee.remove();
         $('#register').addClass("hidden");
         $('#code').removeClass("hidden");
 

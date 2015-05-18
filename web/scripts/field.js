@@ -30,59 +30,56 @@ Field.prototype.start = function() {
         },
         delay = 300,
         transforms = [],
-        crashed = false;
+        position = null,
+        direction = null,
+        crashed = false,
+        success = false,
+        closingAnimation = null;
 
-    this.bee.position = this.level.start;
-    this.bee.direction = this.level.direction;
-    this.bee.element.transform(
-        this.beeHandler.getTransformationString(
-            this.level.direction,
-            [this.offset[0] + this.level.start[0] * 50 + 25, this.offset[1] + this.level.start[1] * 50 + 25]
-        )
-    );
+    position = this.level.start;
+    direction = this.level.direction;
+    this.bee.moveToStart(position, direction);
 
     for (i in this.program) {
         var opcode = this.program[i];
 
         switch (opcode) {
             case "left":
-                this.bee.direction = this.bee.direction - 90;
+                direction = direction - 90;
                 break;
 
             case "right":
-                this.bee.direction = this.bee.direction + 90;
+                direction = direction + 90;
                 break;
 
             case "fly":
                 var newPosition = [
-                        this.bee.position[0] + movements[this.bee.direction % 360][0],
-                        this.bee.position[1] + movements[this.bee.direction % 360][1],
+                        position[0] + movements[direction % 360][0],
+                        position[1] + movements[direction % 360][1],
                     ];
 
                 if ((this.level.map[newPosition[1]][newPosition[0]] === undefined) ||
                     (this.level.map[newPosition[1]][newPosition[0]] === "x")) {
-                    creashed = true;
+                    crashed = true;
                     break;
                 }
 
-                this.bee.position = newPosition;
+                position = newPosition;
                 break;
 
             case "stop":
-                // @TODO: Check if target has been reached
+                if (this.level.map[position[1]][position[0]] === "t") {
+                    success = true;
+                    break;
+                }
         };
 
         if (crashed) {
+            closingAnimation = this.bee.crashAnimation.bind(this.bee);
             break;
         }
 
-        transforms.push(
-            this.beeHandler.getTransformationString(
-                this.bee.direction,
-                [this.offset[0] + this.bee.position[0] * 50 + 25,
-                 this.offset[1] + this.bee.position[1] * 50 + 25]
-            )
-        );
+        transforms.push([position, direction]);
     }
 
     // @TODO: Check if target has been reached and reset otherwise
@@ -90,8 +87,11 @@ Field.prototype.start = function() {
     var animate = function() {
         var transform = transforms.shift();
         if (transform) {
-            this.bee.element.animate({transform: transform}, delay);
-            window.setTimeout(animate.bind(this), delay);
+            this.bee.move(transform[0], transform[1], animate.bind(this));
+        } else if (closingAnimation) {
+            closingAnimation.bind(this)((function() {
+                this.bee.moveToStart(this.level.start, this.level.direction);
+            }).bind(this));
         }
     };
     animate.bind(this)();
@@ -171,13 +171,6 @@ Field.prototype.loadLevel = function(level) {
         height: height
     };
 
-    this.bee = {
-        element: this.beeHandler.create(this.color)
-            .transform(this.beeHandler.getTransformationString(
-                level.direction,
-                [this.offset[0] + level.start[0] * 50 + 25, this.offset[1] + level.start[1] * 50 + 25]
-            )),
-        position: level.start,
-        direction: level.direction
-    };
+    this.bee = this.beeHandler.create(this.offset, this.color);
+    this.bee.moveToStart(level.start, level.direction);
 };
